@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Double Click Closes Tab - Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <img src="icons/icon48.png" alt="Logo" class="logo">
+        <div class="brand-text">
+          <h1>Double Click Closes Tab</h1>
+          <span class="version">v1.1.0</span>
+        </div>
+      </div>
+      <div class="status-badge" id="global-status">
+        <span class="pulse"></span>
+        <span class="status-text">Active</span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+      
+      <!-- Card 0: Rename Tab -->
+      <section class="card">
+        <h2 class="card-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          現在のタブ名を変更
+        </h2>
+        <div class="setting-info">
+          <p class="setting-desc" style="margin-bottom: 12px;">
+            このタブの名前を変更します。ページを移動しても変更後の名前が維持されます。
+            <br><span class="shortcut-tip">※ ショートカットキー <kbd>Option (Alt)</kbd> + <kbd>1</kbd> でも実行可能です。</span>
+          </p>
+        </div>
+        <div class="rename-row">
+          <input type="text" id="input-tab-name" placeholder="新しいタブ名を入力" class="input-text">
+          <div class="rename-actions">
+            <button id="btn-save-tab-name" class="btn">変更</button>
+            <button id="btn-reset-tab-name" class="btn btn-secondary">リセット</button>
+          </div>
+        </div>
+        <span id="rename-status" class="save-status-text">タブ名が更新されました</span>
+      </section>
+
+      <!-- Card 1: Double Click Config -->
+      <section class="card">
+        <h2 class="card-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 3h6v6M14 10l6.1-6.1M9 21h6M12 17v4M12 3a9 9 0 0 0 0 14h0A9 9 0 0 0 12 3Z"/>
+          </svg>
+          ダブルクリックで閉じる設定
+        </h2>
+        
+        <div class="setting-row">
+          <div class="setting-info">
+            <label class="setting-label" for="toggle-enabled">機能を有効にする</label>
+            <p class="setting-desc">Webページ上の余白ダブルクリックでタブを閉じます。</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-enabled" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row" id="modifier-container">
+          <div class="setting-info">
+            <label class="setting-label" for="select-modifier">必要な修飾キー</label>
+            <p class="setting-desc">誤動作を防ぐため、キーを押しながらのダブルクリックを推奨します。</p>
+          </div>
+          <div class="select-wrapper">
+            <select id="select-modifier">
+              <option value="none">なし（ダブルクリックのみ）</option>
+              <option value="shift">Shift + ダブルクリック</option>
+              <option value="alt">Option / Alt + ダブルクリック</option>
+              <option value="ctrl">Control / Command + ダブルクリック</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card 2: Icon Click Config -->
+      <section class="card">
+        <h2 class="card-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"></path>
+          </svg>
+          アイコンクリック設定
+        </h2>
+        
+        <div class="setting-row">
+          <div class="setting-info">
+            <label class="setting-label" for="toggle-icon-click">アイコンクリックでタブを閉じる</label>
+            <p class="setting-desc">拡張機能アイコンのワンクリックで現在のタブを閉じます。</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-icon-click">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="info-alert" id="icon-click-info" style="display: none;">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <p><strong>注意:</strong> この設定が有効な間、アイコンをクリックすると即座にタブが閉じます。設定画面を再度開くには、アイコンを<strong>右クリックして「オプション」</strong>を選択してください。</p>
+        </div>
+      </section>
+
+      <!-- Card 3: Exclusions -->
+      <section class="card">
+        <h2 class="card-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+          </svg>
+          除外ドメイン設定
+        </h2>
+        <div class="setting-info">
+          <p class="setting-desc" style="margin-bottom: 12px;">機能を無効にするドメインを1行に1つずつ入力してください（例: `example.com`）。</p>
+        </div>
+        <textarea id="textarea-exclusions" placeholder="github.com&#10;docs.google.com&#10;sheets.google.com" rows="4"></textarea>
+        <button id="btn-save-exclusions" class="btn">設定を保存する</button>
+        <span id="save-status" class="save-status-text">設定が保存されました</span>
+      </section>
+
+      <!-- Card 4: Note -->
+      <section class="card note-card">
+        <h3 class="note-title">Google Chromeの制限について</h3>
+        <p class="note-text">
+          Chromeの制限により、ブラウザ最上部の「タブバー」自体のクリックは検知できません。
+          そのため本拡張機能は、<strong>Webページ内の空いているスペース（背景など）でのダブルクリック</strong>、および<strong>拡張機能アイコンのクリック</strong>によってタブを閉じる仕組みを採用しています。
+        </p>
+        <p class="note-text text-muted">
+          ※ `chrome://` などの特殊なブラウザ内蔵ページ、およびChromeウェブストア内ではセキュリティ上の理由でダブルクリックによるクローズやタブ名変更は動作しません（アイコンクリックによるクローズはすべてのページで動作します）。
+        </p>
+      </section>
+
+    </main>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
