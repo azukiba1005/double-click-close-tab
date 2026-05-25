@@ -1,0 +1,1 @@
+# double-click-close-tab
